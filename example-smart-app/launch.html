@@ -14,24 +14,8 @@
         // Start the OAuth2 authorization flow
         FHIR.oauth2.authorize({
             'client_id': 'e67effc2-ddb1-4630-b65f-18f45de454c1',
-            'scope':  'patient/Patient.read patient/Observation.read launch online_access openid profile',
-            'redirectUri': 'https://c861-2406-7400-ff03-6e22-85eb-6e56-21ed-ddc2.ngrok-free.app' // Replace with your ngrok URL
+            'scope':  'patient/Patient.read patient/Observation.read launch online_access openid profile'
         });
-
-        // You can check for the OAuth response in the window URL after redirection
-        window.onload = function() {
-            const params = new URLSearchParams(window.location.search);
-
-            // Check if there's an authorization code or error in the URL
-            if (params.has('code')) {
-                // If successful, redirect to your React app
-                window.location.href = 'http://localhost:5175'; // Your React app URL
-            } else if (params.has('error')) {
-                // Handle the error appropriately
-                console.error('Authorization error:', params.get('error'));
-                alert('Authorization failed: ' + params.get('error'));
-            }
-        };
     </script>
 </body>
 </html>
