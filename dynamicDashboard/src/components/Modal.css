@@ -1,0 +1,167 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* background-color: rgba(255, 255, 0, 0.75);  */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 60;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 50%;
+  height: auto;
+}
+
+.modal-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* .controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+} */
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem; /* Space below controls */
+}
+
+.ml-4 {
+  margin-left: 1rem; /* Adds space between the submit and cancel buttons */
+}
+
+.submit-button.disabled {
+  background-color: gray; 
+  cursor: not-allowed; 
+  opacity: 0.5; 
+}
+
+.flex {
+  display: flex;
+}
+
+.mb-4 {
+  margin-bottom: 1rem; /* Space below elements */
+}
+
+.record-button, .stop-button, .cancel-button {
+  background-color: #3b82f6; /* Tailwind blue-500 */
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.record-button:hover, .stop-button:hover {
+  background-color: #2563eb; 
+}
+
+.cancel-button {
+  background-color: transparent;
+  color: blue; 
+  margin-bottom: 13px;
+}
+
+.cancel-button:hover {
+  color: #ef4444; /* Tailwind red-500 */
+}
+
+.sound-wave {
+  width: 100%;
+  height: 50px;
+  margin-bottom: 16px;
+}
+
+.transcripts-container {
+  max-height: 200px; 
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.transcript {
+  width: 100%; 
+  height: 100%; 
+  border: none; 
+  resize: none; 
+  outline: none; 
+  padding: 5px;
+  font-family: inherit; 
+  font-size: 14px; 
+}
+
+
+.recording-item {
+  margin-top: 8px;
+}
+
+.recordings-list {
+  margin-top: 16px;
+}
+
+
+canvas {
+  display: none;
+}
+
+.text-transcript {
+  font-weight: bold;
+}
+
+.success-message {
+  margin-top: 10px;
+  color: green;  /* You can also use red for error */
+  font-weight: bold;
+  text-align: center;
+}
+
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
+
+.message {
+  font-weight: bold;
+  text-align: center;
+}
+
+
+
+.efee {
+  display: flex; /* Use flexbox layout */
+  background-color: rgb(243 244 246 );
+  border-radius: 10px;
+  width: auto;
+  margin-left: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+
+.score-container {
+  display: flex; /* Use flexbox for horizontal layout */
+  justify-content: center; /* Center items horizontally */
+  padding: 10px; /* Add some padding */
+}
+
+.score-item {
+  margin-right: 20px; /* Space between score items */
+  color: black; /* Change color for better visibility */
+  text-align: center; /* Center text in each item */
+}
