@@ -132,7 +132,7 @@ const App: React.FC = () => {
 
     // Fetch FHIR data with the access token
     const fetchFhirData = async (accessToken: string) => {
-      const fhirUrl = 'https://fhir-open.cerner.com/r4/ec2458f2-1e24-41c8-b71b-0e701af7583d'; // Adjust to the appropriate FHIR endpoint
+      const fhirUrl = 'https://code-console.cerner.com/console/details/45b65550-2e87-4e7c-b5f3-2a83c02ed827/e67effc2-ddb1-4630-b65f-18f45de454c1'; // Adjust to the appropriate FHIR endpoint
 
       try {
         const response = await fetch(fhirUrl, {
