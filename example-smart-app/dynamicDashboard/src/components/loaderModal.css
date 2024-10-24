@@ -1,0 +1,53 @@
+.loader-modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background inside the modal */
+    z-index: 10; /* Ensure it stays above the modal content */
+  }
+  
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(0, 0, 0, 0.1); /* Light border */
+    border-top: 4px solid #3498db; /* Blue colored border */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .loading-text {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #3498db; /* Blue color matching the spinner */
+    font-weight: bold;
+    animation: pulse 1.5s infinite ease-in-out;
+  }
+  
+  /* Text pulsing effect */
+  @keyframes pulse {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
