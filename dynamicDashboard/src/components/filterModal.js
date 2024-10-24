@@ -1,0 +1,8 @@
+import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
+import { vitalOptions } from "../utils";
+const FilterModal = ({ showFilterOptions, setShowFilterOptions, selectedVital, handleVitalChange, }) => {
+    if (!showFilterOptions)
+        return null;
+    return (_jsxs(_Fragment, { children: [" ", _jsx("div", { className: "fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40", onClick: () => setShowFilterOptions(false) }), _jsx("div", { className: "fixed inset-0 z-50 flex justify-center items-end shadow-lg", children: _jsxs("div", { className: "bg-white w-full p-6 rounded-t-2xl shadow-lg", children: [_jsxs("div", { className: "flex justify-between items-center mb-4", children: [_jsx("h1", { className: "text-lg font-medium", children: "Filter" }), _jsx("button", { className: "text-gray-600", onClick: () => setShowFilterOptions(false), children: "X" })] }), _jsxs("div", { children: [_jsx("h2", { className: "text-sm font-medium mb-2", children: "Detail data" }), _jsx("ul", { className: "space-y-2", children: vitalOptions.map((vital) => (_jsxs("li", { className: "flex items-center", children: [_jsx("input", { type: "checkbox", id: vital, checked: selectedVital === vital, onChange: () => handleVitalChange(vital), className: "form-checkbox h-4 w-4 text-blue-600" }), _jsx("label", { htmlFor: vital, className: "ml-2 text-sm text-gray-700", children: vital })] }, vital))) })] }), _jsx("div", { className: "mt-6", children: _jsx("button", { className: "w-full bg-blue-600 text-white py-2 rounded-full", onClick: () => setShowFilterOptions(false), children: "Apply Filter" }) })] }) })] }));
+};
+export default FilterModal;

@@ -1,0 +1,6 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { STATUS_ITEMS as statusItems } from "../utils/index";
+const PatientFooter = ({ gridCount, }) => {
+    return (_jsxs("div", { className: `lg:flex justify-around lg:justify-start ${gridCount === 2 ? "xl:block" : "xl:flex"}`, children: [_jsx("div", { className: `grid grid-cols-4 md:grid-cols-5 gap-1 justify-center items-center mx-2 my-2`, children: statusItems.map((item, index) => (_jsx("div", { className: `${index === 4 ? "col-span-4 md:col-span-1" : "col-span-2"} md:col-span-1 border-2 py-3 lg:px-2 rounded-full border-gray-100`, children: _jsxs("div", { className: "flex justify-center items-center", children: [_jsx("label", { className: "bg-blue-600 rounded-full text-white py-0.5 px-1 w-6 h-6 flex justify-center items-center", children: item.value }), _jsx("label", { className: "ml-1", children: item.label })] }) }, index))) }), _jsxs("div", { className: "hidden md:flex justify-center items-center", children: [_jsx("label", { className: "bg-green-500 rounded-full text-white px-3 py-1 font-bold", children: "RPM" }), _jsx("label", { className: "bg-blue-600 rounded-full text-white px-3 py-1 ml-3 font-bold", children: "CCM" })] })] }));
+};
+export default PatientFooter;
