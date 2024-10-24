@@ -280,95 +280,114 @@
 
 
 
-import React, { useEffect, useState } from "react";
-import FHIR from 'fhirclient';
-import PatientCard from "../components/patientCard";
+// import React, { useEffect, useState } from "react";
+// import FHIR from 'fhirclient';
+// import PatientCard from "../components/patientCard";
 
-const Dashboard: React.FC = () => {
-  const [fhirClient, setFHIRClient] = useState<Object | null>(null);
-  const [patients, setPatients] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+// const Dashboard: React.FC = () => {
+//   const [fhirClient, setFHIRClient] = useState<Object | null>(null);
+//   const [patients, setPatients] = useState<any[]>([]);
+//   const [loading, setLoading] = useState(true);
 
-  // Fetch patient data after FHIR client is initialized
-  const fetchPatients = async (client: any) => {
-    try {
-      console.log("Fetching patient data...");
-      const pt = await client.patient.read();
-      console.log("Patient data:", pt);
+//   // Fetch patient data after FHIR client is initialized
+//   const fetchPatients = async (client: any) => {
+//     try {
+//       console.log("Fetching patient data...");
+//       const pt = await client.patient.read();
+//       console.log("Patient data:", pt);
 
-      const newPatient = {
-        profile: "../assets/profilepic.jpeg",
-        name: pt.name[0].given[0] + " " + pt.name[0].family,
-        email: pt.telecom[0].value,
-        age: 34,  // Replace with actual age logic
-        gender: pt.gender,
-        dob: pt.birthDate,
-        id: pt.id,
-        presentStatus: "Low",
-        heartAge: 55,
-        days_remaining: 10,
-        duration: 365,
-        dynamicCount: 5,
-        records: [],
-      };
+//       const newPatient = {
+//         profile: "../assets/profilepic.jpeg",
+//         name: pt.name[0].given[0] + " " + pt.name[0].family,
+//         email: pt.telecom[0].value,
+//         age: 34,  // Replace with actual age logic
+//         gender: pt.gender,
+//         dob: pt.birthDate,
+//         id: pt.id,
+//         presentStatus: "Low",
+//         heartAge: 55,
+//         days_remaining: 10,
+//         duration: 365,
+//         dynamicCount: 5,
+//         records: [],
+//       };
 
-      setPatients([newPatient]);
-    } catch (error) {
-      console.error("Error fetching patient data:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+//       setPatients([newPatient]);
+//     } catch (error) {
+//       console.error("Error fetching patient data:", error);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
 
-  // Initialize the FHIR client (ensure OAuth2 flow is properly handled)
-  useEffect(() => {
-    const initializeClient = async () => {
-      try {
-        // Check for 'code' and 'state' parameters in the URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const code = urlParams.get('code');
-        const state = urlParams.get('state');
+//   // Initialize the FHIR client (ensure OAuth2 flow is properly handled)
+//   useEffect(() => {
+//     const initializeClient = async () => {
+//       try {
+//         // Check for 'code' and 'state' parameters in the URL
+//         const urlParams = new URLSearchParams(window.location.search);
+//         const code = urlParams.get('code');
+//         const state = urlParams.get('state');
 
-        if (!code || !state) {
-          console.error("Missing 'code' or 'state' parameter in the URL.");
-          setLoading(false);
-          return;
-        }
+//         if (!code || !state) {
+//           console.error("Missing 'code' or 'state' parameter in the URL.");
+//           setLoading(false);
+//           return;
+//         }
 
-        // If 'code' and 'state' are present, proceed to authorize
-        const client = await FHIR.oauth2.ready();
-        setFHIRClient(client);
-        console.log("FHIR Client is ready:", client);
+//         // If 'code' and 'state' are present, proceed to authorize
+//         const client = await FHIR.oauth2.ready();
+//         setFHIRClient(client);
+//         console.log("FHIR Client is ready:", client);
 
-        // Fetch patient data once the client is ready
-        await fetchPatients(client);
-      } catch (error) {
-        console.error("FHIR Client is not ready:", error);
-        setLoading(false);
-      }
-    };
+//         // Fetch patient data once the client is ready
+//         await fetchPatients(client);
+//       } catch (error) {
+//         console.error("FHIR Client is not ready:", error);
+//         setLoading(false);
+//       }
+//     };
 
-    initializeClient();
-  }, []);
+//     initializeClient();
+//   }, []);
 
-  // Show a loading spinner or message while fetching data
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+//   // Show a loading spinner or message while fetching data
+//   if (loading) {
+//     return <div>Loading...</div>;
+//   }
 
+//   return (
+//     <div className="flex flex-col bg-gray-200 min-h-screen">
+//       <div className="grid grid-cols-1 2xl:grid-cols-1 p-2 lg:p-1">
+//         {patients.length > 0 ? (
+//           patients.map((patient, index) => (
+//             <PatientCard key={index} patient={patient} gridCount={1} />
+//           ))
+//         ) : (
+//           <div>No patients available</div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Dashboard;
+
+
+import React from 'react';
+
+interface DashboardProps {
+  fhirData: any;
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ fhirData }) => {
   return (
-    <div className="flex flex-col bg-gray-200 min-h-screen">
-      <div className="grid grid-cols-1 2xl:grid-cols-1 p-2 lg:p-1">
-        {patients.length > 0 ? (
-          patients.map((patient, index) => (
-            <PatientCard key={index} patient={patient} gridCount={1} />
-          ))
-        ) : (
-          <div>No patients available</div>
-        )}
-      </div>
+    <div>
+      <h1>Patient Data from Cerner</h1>
+      <pre>{JSON.stringify(fhirData, null, 2)}</pre>
     </div>
   );
 };
 
 export default Dashboard;
+

@@ -66,20 +66,84 @@
 
 // export default App;
 
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import Dashboard from './pages/dashboard';
 
+const App: React.FC = () => {
+  const [token, setToken] = useState<string | null>(null);
+  const [fhirData, setFhirData] = useState<any>(null);
 
-function App() {
+  useEffect(() => {
+    // Extract authorization code from URL
+    const getAuthCodeFromUrl = () => {
+      const query = new URLSearchParams(window.location.search);
+      const code = query.get('code');
+      if (code) {
+        exchangeCodeForToken(code);
+      }
+    };
+
+    const exchangeCodeForToken = async (code: string) => {
+      const tokenUrl = 'https://fhir.sandboxcerner.com/oauth2/token';
+      const clientId = 'e67effc2-ddb1-4630-b65f-18f45de454c1';  // Your client ID
+      const redirectUri = 'https://movin-smart.github.io/smart-on-fhir-tutorial/example-smart-app/';  // Your redirect URI
+
+      const data = new URLSearchParams();
+      data.append('grant_type', 'authorization_code');
+      data.append('code', code);
+      data.append('redirect_uri', redirectUri);
+      data.append('client_id', clientId);
+
+      try {
+        const response = await fetch(tokenUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: data.toString(),
+        });
+
+        const tokenData = await response.json();
+        setToken(tokenData.access_token);
+
+        // Fetch FHIR data now that we have the access token
+        fetchFhirData(tokenData.access_token);
+      } catch (error) {
+        console.error('Error exchanging code for token:', error);
+      }
+    };
+
+    const fetchFhirData = async (accessToken: string) => {
+      const fhirUrl = 'https://fhir.sandboxcerner.com/dstu2/123456/Patient'; // Adjust to the appropriate FHIR endpoint
+
+      try {
+        const response = await fetch(fhirUrl, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        const fhirData = await response.json();
+        setFhirData(fhirData);
+      } catch (error) {
+        console.error('Error fetching FHIR data:', error);
+      }
+    };
+
+    getAuthCodeFromUrl();
+  }, []);
+
   return (
-    <Router>
-      <Routes>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/" element={<Dashboard />} />
-      </Routes>
-    </Router>
+    <div>
+      {fhirData ? (
+        <Dashboard fhirData={fhirData} />
+      ) : (
+        <p>Loading...</p>
+      )}
+    </div>
   );
-}
+};
 
 export default App;
-
