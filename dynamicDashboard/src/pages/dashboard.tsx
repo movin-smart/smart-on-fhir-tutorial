@@ -193,114 +193,178 @@
 // };
 
 // export default Dashboard;
+
+
+
+
+
+
+// import React, { useEffect, useState } from "react";
+// import FHIR from 'fhirclient';
+// import PatientCard from "../components/patientCard";
+
+
+// const Dashboard: React.FC = () => {
+//   const [fhirClient, setFHIRClient] = useState<Object | null>(null);
+//   const [patients, setPatients] = useState<any[]>([]);
+//   const [loading, setLoading] = useState(true);
+
+//   const fetchPatients = async (client: any) => {
+//     try {
+//       console.log("Fetching patient data...");
+//       const pt = await client.patient.read();
+//       console.log("Patient data:", pt);
+
+//       const newPatient = {
+//         profile: "../assets/profilepic.jpeg",
+//         name: pt.name[0].given[0] + " " + pt.name[0].family,
+//         email: pt.telecom[0].value,
+//         age: 34,  // Replace with actual age logic
+//         gender: pt.gender,
+//         dob: pt.birthDate,
+//         id: pt.id,
+//         presentStatus: "Low",
+//         heartAge: 55,
+//         days_remaining: 10,
+//         duration: 365,
+//         dynamicCount: 5,
+//         records: [],
+//       };
+
+//       setPatients([newPatient]);
+//     } catch (error) {
+//       console.error("Error fetching patient data:", error);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   useEffect(() => {
+//     const initializeClient = async () => {
+//       try {
+//         // Ensure FHIR Client is ready before accessing it
+//         const client = await FHIR.oauth2.ready();
+//         setFHIRClient(client);
+//         console.log("FHIR Client is ready:", client);
+//         await fetchPatients(client);
+//       } catch (error) {
+//         console.error("FHIR Client is not ready:", error);
+//         setLoading(false);
+//       }
+//     };
+
+//     initializeClient();
+//   }, []);
+
+//   if (loading) {
+//     return <div>Loading...</div>;
+//   }
+
+//   return (
+//     <div className="flex flex-col bg-gray-200 min-h-screen">
+//       <div className="grid grid-cols-1 2xl:grid-cols-1 p-2 lg:p-1">
+//         {patients.length > 0 ? (
+//           patients.map((patient, index) => (
+//             <PatientCard key={index} patient={patient} gridCount={1} />
+//           ))
+//         ) : (
+//           <div>No patients available</div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Dashboard;
+
+
+
+
 import React, { useEffect, useState } from "react";
 import FHIR from 'fhirclient';
 import PatientCard from "../components/patientCard";
 
-interface DashboardRecord {
-  type: string;
-  value: string;
-  date: string;
-  time: string;
-  avgValue: string;
-  unit: string;
-  test?: string;
-  testValue?: string;
-  testUnit?: string;
-}
-
-interface DashboardPatient {
-  profile: string;
-  name: string;
-  email: string;
-  age: number;
-  gender: string;
-  dob: string;
-  id: string;
-  presentStatus: string;
-  heartAge: number;
-  days_remaining: number;
-  duration: number;  
-  dynamicCount: number;
-  records: DashboardRecord[];
-}
-
 const Dashboard: React.FC = () => {
-  const [fhirClient, setFHIRClient] = useState<any>(null);  // FHIR client object
-  const [patients, setPatients] = useState<DashboardPatient[]>([]);  // List of patients
-  const [loading, setLoading] = useState(true);  // Loading state
+  const [fhirClient, setFHIRClient] = useState<Object | null>(null);
+  const [patients, setPatients] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Fetch patient data from the FHIR client
+  // Fetch patient data after FHIR client is initialized
   const fetchPatients = async (client: any) => {
     try {
       console.log("Fetching patient data...");
-
-      const pt = await client.patient.read();  // Fetch patient data from FHIR client
+      const pt = await client.patient.read();
       console.log("Patient data:", pt);
 
-      // Create a new patient record based on FHIR data
-      const newPatient: DashboardPatient = {
+      const newPatient = {
         profile: "../assets/profilepic.jpeg",
         name: pt.name[0].given[0] + " " + pt.name[0].family,
         email: pt.telecom[0].value,
-        age: 34,  // Placeholder age, you can calculate this from pt.birthDate if needed
+        age: 34,  // Replace with actual age logic
         gender: pt.gender,
         dob: pt.birthDate,
         id: pt.id,
-        presentStatus: "Low",  // Example data, modify as per your logic
-        heartAge: 55,  // Example data
-        days_remaining: 10,  // Example data
-        duration: 365,  // Example data
-        dynamicCount: 5,  // Example data
-        records: [],  // Add real medical records here as per your data
+        presentStatus: "Low",
+        heartAge: 55,
+        days_remaining: 10,
+        duration: 365,
+        dynamicCount: 5,
+        records: [],
       };
 
-      setPatients([newPatient]);  // Add the new patient to the list
+      setPatients([newPatient]);
     } catch (error) {
       console.error("Error fetching patient data:", error);
     } finally {
-      setLoading(false);  // Set loading to false after fetching
+      setLoading(false);
     }
   };
 
-  // Initialize the FHIR client and fetch patients
+  // Initialize the FHIR client (ensure OAuth2 flow is properly handled)
   useEffect(() => {
     const initializeClient = async () => {
       try {
-        // Start the OAuth2 process if the client isn't ready
-        FHIR.oauth2.authorize({
-          clientId: "my-client-id",  // Replace with your FHIR app's client ID
-          scope: "patient/*.read",
-          redirectUri: window.location.href,  // Redirect back to the same URL after OAuth2 flow
-        });
+        // Check for 'code' and 'state' parameters in the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        const state = urlParams.get('state');
 
-        const client = await FHIR.oauth2.ready();  // Wait for FHIR client to be ready
+        if (!code || !state) {
+          console.error("Missing 'code' or 'state' parameter in the URL.");
+          setLoading(false);
+          return;
+        }
+
+        // If 'code' and 'state' are present, proceed to authorize
+        const client = await FHIR.oauth2.ready();
         setFHIRClient(client);
         console.log("FHIR Client is ready:", client);
-        await fetchPatients(client);  // Fetch patient data after FHIR client is ready
+
+        // Fetch patient data once the client is ready
+        await fetchPatients(client);
       } catch (error) {
         console.error("FHIR Client is not ready:", error);
-        setLoading(false);  // Stop loading if there is an error
+        setLoading(false);
       }
     };
 
-    initializeClient();  // Call the initialization function
+    initializeClient();
   }, []);
 
+  // Show a loading spinner or message while fetching data
   if (loading) {
-    return <div>Loading...</div>;  // Display a loading message while fetching
+    return <div>Loading...</div>;
   }
 
   return (
     <div className="flex flex-col bg-gray-200 min-h-screen">
       <div className="grid grid-cols-1 2xl:grid-cols-1 p-2 lg:p-1">
         {patients.length > 0 ? (
-          // Render a PatientCard component for each patient
           patients.map((patient, index) => (
             <PatientCard key={index} patient={patient} gridCount={1} />
           ))
         ) : (
-          <div>No patients available</div>  // Display message if no patients are found
+          <div>No patients available</div>
         )}
       </div>
     </div>
