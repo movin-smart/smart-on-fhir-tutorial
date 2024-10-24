@@ -72,27 +72,40 @@ import Dashboard from './pages/dashboard';
 const App: React.FC = () => {
   const [token, setToken] = useState<string | null>(null);
   const [fhirData, setFhirData] = useState<any>(null);
+  const clientId = 'e67effc2-ddb1-4630-b65f-18f45de454c1'; // Your Client ID
+  const redirectUri = 'https://movin-smart.github.io/smart-on-fhir-tutorial/example-smart-app/launch.html'; // Your Redirect URI
 
   useEffect(() => {
-    // Extract authorization code from URL
+    // Check for authorization code in URL
     const getAuthCodeFromUrl = () => {
       const query = new URLSearchParams(window.location.search);
       const code = query.get('code');
       if (code) {
         exchangeCodeForToken(code);
+      } else {
+        redirectToAuthorization();
       }
     };
 
+    // Redirect user to Cerner's authorization endpoint
+    const redirectToAuthorization = () => {
+      const scope = 'patient/Observation.read launch'; // Scopes your application needs
+      const state = 'some-random-state'; // A random string to maintain state
+      const cernerAuthUri = `https://fhir.sandboxcerner.com/oauth2/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${encodeURIComponent(scope)}&state=${state}`;
+
+      window.location.href = cernerAuthUri; // Redirect to authorization
+    };
+
+    // Exchange authorization code for access token
     const exchangeCodeForToken = async (code: string) => {
       const tokenUrl = 'https://fhir.sandboxcerner.com/oauth2/token';
-      const clientId = 'e67effc2-ddb1-4630-b65f-18f45de454c1';  // Your client ID
-      const redirectUri = 'https://movin-smart.github.io/smart-on-fhir-tutorial/example-smart-app/';  // Your redirect URI
-
       const data = new URLSearchParams();
       data.append('grant_type', 'authorization_code');
       data.append('code', code);
       data.append('redirect_uri', redirectUri);
       data.append('client_id', clientId);
+      // If required, add client_secret here
+      // data.append('client_secret', 'YOUR_CLIENT_SECRET'); // Uncomment and add your client secret if necessary
 
       try {
         const response = await fetch(tokenUrl, {
@@ -102,6 +115,10 @@ const App: React.FC = () => {
           },
           body: data.toString(),
         });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
 
         const tokenData = await response.json();
         setToken(tokenData.access_token);
@@ -113,6 +130,7 @@ const App: React.FC = () => {
       }
     };
 
+    // Fetch FHIR data with the access token
     const fetchFhirData = async (accessToken: string) => {
       const fhirUrl = 'https://fhir.sandboxcerner.com/dstu2/123456/Patient'; // Adjust to the appropriate FHIR endpoint
 
@@ -124,6 +142,10 @@ const App: React.FC = () => {
             'Content-Type': 'application/json',
           },
         });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch FHIR data');
+        }
 
         const fhirData = await response.json();
         setFhirData(fhirData);
