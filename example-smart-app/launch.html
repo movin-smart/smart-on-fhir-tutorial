@@ -16,6 +16,7 @@
             'scope':  'patient/Patient.read patient/Observation.read launch online_access openid profile'
         });
     </script>-->
+    <div id='errors'></div>
 
 
     <!-- <script>
@@ -27,7 +28,7 @@
         });
       </script> -->
 
-     <script>
+     <!-- <script>
     document.addEventListener('DOMContentLoaded', function () {
         const urlParams = new URLSearchParams(window.location.search);
         const iss = urlParams.get('iss');
@@ -47,6 +48,29 @@
                 iss: iss, // Use the 'iss' value from the URL
                 state: state // Use the 'state' value from the URL
             });
+        }
+    });
+</script> -->
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const iss = urlParams.get('iss');
+        const state = urlParams.get('state');
+
+        if (!iss || !state) {
+            // Redirect or display error in launch.html
+            const errorsElement = document.getElementById('errors');
+            if (errorsElement) {
+                errorsElement.innerHTML = '<p>Missing iss or state parameter. Cannot launch the app.</p>';
+            }
+        } else {
+            // Store parameters in local storage
+            localStorage.setItem('iss', iss);
+            localStorage.setItem('state', state);
+            // Redirect to index.html
+            window.location.href = 'index.html';
         }
     });
 </script>
