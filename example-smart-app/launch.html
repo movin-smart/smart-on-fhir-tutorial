@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -19,7 +19,7 @@
     <div id='errors'></div>
 
 
-     <!-- <script>
+     <script>
         FHIR.oauth2.authorize({
           client_id: 'e67effc2-ddb1-4630-b65f-18f45de454c1',
           scope: 'launch/patient openid profile',
@@ -50,7 +50,7 @@
             });
         }
     });
-</script>  -->
+</script>  
 
 
 <script>
@@ -76,7 +76,7 @@
 </script>
 
 </body>
-</html>
+</html>-->
  
 
  <!-- FHIR Client JS Library 
@@ -119,3 +119,24 @@
     </script>
 </body>
 </html>-->
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SMART App Launch</title>
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/fhirclient/build/fhir-client.min.js"></script>
+    <script>
+      FHIR.oauth2.authorize({
+        'client_id': 'e67effc2-ddb1-4630-b65f-18f45de454c1',
+        'scope': 'patient/Patient.read patient/Observation.read launch online_access openid profile'
+      });
+    </script>
+  </body>
+</html>

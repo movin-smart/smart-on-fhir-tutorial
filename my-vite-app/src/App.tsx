@@ -33,9 +33,37 @@
 // }
 
 // export default App
+
+
+
+
+
+// import React from 'react';
+// import './App.css';
+// import PatientRecords from './PatientRecords';
+
+// const App: React.FC = () => {
+//   return (
+//     <div className="App">
+//       <header className="App-header">
+//         <h1>Example SMART App</h1>
+//       </header>
+//       <main>
+//         <PatientRecords />
+//       </main>
+//     </div>
+//   );
+// };
+
+// export default App;
+
+
+
+
+
 import React from 'react';
 import './App.css';
-import PatientRecords from './PatientRecords';
+import FHIRPatientRecords from './FHIRPatientRecords';
 
 const App: React.FC = () => {
   return (
@@ -44,7 +72,7 @@ const App: React.FC = () => {
         <h1>Example SMART App</h1>
       </header>
       <main>
-        <PatientRecords />
+        <FHIRPatientRecords />
       </main>
     </div>
   );
