@@ -33,18 +33,23 @@
 // }
 
 // export default App
-
 import React from 'react';
+import './App.css';
 import PatientRecords from './PatientRecords';
 
 const App: React.FC = () => {
   return (
-    <div>
-      <h1>SMART on FHIR Patient Records</h1>
-      <PatientRecords />
+    <div className="App">
+      <header className="App-header">
+        <h1>Example SMART App</h1>
+      </header>
+      <main>
+        <PatientRecords />
+      </main>
     </div>
   );
 };
 
 export default App;
+
 
