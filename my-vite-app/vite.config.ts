@@ -11,15 +11,22 @@
 //   },
 // });
 
-
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  build: {
-    outDir: '../dist', // This will output the build to the parent directory
+  server: {
+    headers: {
+      'Content-Type': 'application/javascript',
+    },
   },
-  base: './', // This ensures assets are loaded correctly
-})
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: undefined,
+      },
+    },
+  },
+});
 

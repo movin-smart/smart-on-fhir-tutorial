@@ -61,19 +61,35 @@
 
 
 
+// import React from 'react';
+// import './App.css';
+// import FHIRPatientRecords from './FHIRPatientRecords';
+
+// const App: React.FC = () => {
+//   return (
+//     <div className="App">
+//       <header className="App-header">
+//         <h1>Example SMART App</h1>
+//       </header>
+//       <main>
+//         <FHIRPatientRecords />
+//       </main>
+//     </div>
+//   );
+// };
+
+// export default App;
+
+
+
+
 import React from 'react';
-import './App.css';
-import FHIRPatientRecords from './FHIRPatientRecords';
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Example SMART App</h1>
-      </header>
-      <main>
-        <FHIRPatientRecords />
-      </main>
+    <div>
+      <h1>SMART on FHIR React App</h1>
+      <p>This is a basic setup for a Vite-built React app that addresses MIME type issues.</p>
     </div>
   );
 };
