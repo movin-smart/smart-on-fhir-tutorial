@@ -46,7 +46,17 @@
   </body>
 </html>-->
 
-<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta http-equiv='X-UA-Compatible' content='IE=edge' />
@@ -54,10 +64,7 @@
     <title>Example-SMART-App</title>
 
     <link rel='stylesheet' type='text/css' href='./src/css/example-smart-app.css'>
-    <!--
-      Temporarily disable cerner-smart-embeddable-lib
-      <link rel='stylesheet' type='text/css' href='./lib/css/cerner-smart-embeddable-lib-1.0.0.min.css'>
-    -->
+   
   </head>
   <body>
     <div id='errors'>
@@ -114,24 +121,18 @@
         </tr>
       </table>
     </div>
-    <!-- Required JS files to enable this page to embed within an MPage -->
-    <!--
-      Temporarily disable cerner-smart-embeddable-lib
-      <script src='https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js'></script>
-      <script src='./lib/js/cerner-smart-embeddable-lib-1.0.0.min.js'></script>
-    -->
+   
 
-    <!-- Application-level javascript-->
+    
     <script src='./src/js/example-smart-app.js'></script>
 
-    <!-- FHIR Client JS Library -->
+    
     <script src='./lib/js/fhir-client-v0.1.12.js'></script>
 
-    <!-- Prevent session bleed caused by single threaded embedded browser and sessionStorage API -->
-    <!-- https://github.com/cerner/fhir-client-cerner-additions -->
+   
     <script src='./lib/js/fhir-client-cerner-additions-1.0.0.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <!-- <script>
+     <script>
       
       extractData().then(
         //Display Patient Demographics and Observations if extractData was success
@@ -145,7 +146,7 @@
           $('#errors').html('<p> Failed to call FHIR Service </p>');
         }
       );
-    </script> -->
+    </script> 
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
@@ -168,5 +169,17 @@
 </script>
 
   </body>
-</html>
+</html>-->
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SMART on FHIR React App</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="../my-vite-app//src/main.tsx"></script>
+</body>
+</html>
