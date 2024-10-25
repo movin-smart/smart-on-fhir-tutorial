@@ -17,7 +17,7 @@
         });
     </script>-->
 
-    
+
     <!-- <script>
         FHIR.oauth2.authorize({
           client_id: 'e67effc2-ddb1-4630-b65f-18f45de454c1',
@@ -27,24 +27,30 @@
         });
       </script> -->
 
-      <script>
-        // Ensure that the 'iss' and 'state' parameters are present in the URL
+     <script>
+    document.addEventListener('DOMContentLoaded', function () {
         const urlParams = new URLSearchParams(window.location.search);
         const iss = urlParams.get('iss');
         const state = urlParams.get('state');
-        
+
         if (!iss || !state) {
-          document.getElementById('errors').innerHTML = '<p>Missing iss or state parameter. Cannot launch the app.</p>';
+            // Ensure that the 'errors' element exists
+            const errorsElement = document.getElementById('errors');
+            if (errorsElement) {
+                errorsElement.innerHTML = '<p>Missing iss or state parameter. Cannot launch the app.</p>';
+            }
         } else {
-          FHIR.oauth2.authorize({
-            client_id: 'e67effc2-ddb1-4630-b65f-18f45de454c1',
-            scope: 'launch/patient openid profile',
-            redirect_uri: 'https://movin-smart.github.io/smart-on-fhir-tutorial/example-smart-app/launch.html',
-            iss: iss, // Use the 'iss' value from the URL
-            state: state // Use the 'state' value from the URL
-          });
+            FHIR.oauth2.authorize({
+                client_id: 'e67effc2-ddb1-4630-b65f-18f45de454c1',
+                scope: 'launch/patient openid profile',
+                redirect_uri: 'https://movin-smart.github.io/smart-on-fhir-tutorial/example-smart-app/launch.html',
+                iss: iss, // Use the 'iss' value from the URL
+                state: state // Use the 'state' value from the URL
+            });
         }
-      </script>
+    });
+</script>
+
 </body>
 </html>
 
